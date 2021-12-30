@@ -15,9 +15,13 @@ public class MainController
     private MoveFactory moveFactory;
 
     @PostMapping(path = "/judge-move", produces = "application/json")
-    public Note handle(@RequestBody service.cardtrainer.trainer.infrastructure.dto.Move dtoMove) {
+    public service.cardtrainer.trainer.infrastructure.dto.Note handle(@RequestBody service.cardtrainer.trainer.infrastructure.dto.Move dtoMove) {
         Move move = moveFactory.create(dtoMove);
 
-        return trainer.judgeMove(move);
+        service.cardtrainer.trainer.infrastructure.dto.Note result = new service.cardtrainer.trainer.infrastructure.dto.Note();
+
+        result.value = (trainer.judgeMove(move) == Note.OK) ? "ok" : "wrong";
+
+        return result;
     }
 }
